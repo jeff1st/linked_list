@@ -19,6 +19,7 @@ class LinkedList
     new_node = Node.new val
     @current.next_node = new_node
     @current = new_node
+    return self.to_s
   end
 
   def prepend(val)
@@ -26,6 +27,7 @@ class LinkedList
     new_node = Node.new val
     new_node.next_node = @head
     @head = new_node
+    return self.to_s
   end
 
   def head
@@ -131,7 +133,34 @@ class LinkedList
   end
 
   def remove_at(index)
+    current_node = @head
+    current_index = 0
 
+    return puts "Error, index not in list" if (index > (self.size - 1) || index < 0)
+    
+    if index == 0
+      if @head.next_node.nil?
+        @head.value = nil
+        return self.to_s
+      else
+        follow = @head.next_node 
+        @head.next_node = nil
+        @head = follow
+        return self.to_s
+      end
+    end
+    
+    while true
+      current_index += 1
+      memo = current_node
+      current_node = current_node.next_node
+      if index == current_index
+        memo.next_node = current_node.next_node
+        current_node.next_node = nil
+        current_node.value = nil
+        return self.to_s
+      end
+    end
   end
 
   def to_s
