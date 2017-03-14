@@ -38,6 +38,17 @@ class LinkedList
     @current.value
   end
 
+  def update
+    current_node = @head
+
+    while true
+      break if current_node.next_node.nil?
+      current_node = current_node.next_node
+    end
+
+    @current = current_node
+  end
+
   def size
     size = 1
     current_node = @head
@@ -126,6 +137,7 @@ class LinkedList
         current = Node.new val
         prec.next_node = current
         current.next_node = follow
+        update
         return self.to_s
       end
       current_node = follow
@@ -155,10 +167,19 @@ class LinkedList
       memo = current_node
       current_node = current_node.next_node
       if index == current_index
-        memo.next_node = current_node.next_node
-        current_node.next_node = nil
-        current_node.value = nil
-        return self.to_s
+        if current_node.next_node.nil?
+          memo.next_node = nil
+          current_node.next_node = nil
+          current_node.value = nil
+          update
+          return self.to_s
+        else  
+          memo.next_node = current_node.next_node
+          current_node.next_node = nil
+          current_node.value = nil
+          update
+          return self.to_s
+        end
       end
     end
   end
